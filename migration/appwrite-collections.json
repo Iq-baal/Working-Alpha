@@ -1,0 +1,146 @@
+{
+  "databaseId": "payme-protocol",
+  "collections": [
+    {
+      "id": "users",
+      "name": "Users",
+      "permissions": ["collection()"],
+      "attributes": [
+        { "key": "userId", "type": "string", "size": 255, "required": true },
+        { "key": "email", "type": "string", "size": 255, "required": false },
+        { "key": "username", "type": "string", "size": 50, "required": false },
+        { "key": "usernameClaimed", "type": "boolean", "required": false, "default": false },
+        { "key": "name", "type": "string", "size": 100, "required": false },
+        { "key": "occupation", "type": "string", "size": 100, "required": false },
+        { "key": "avatarBase64", "type": "string", "size": 1000000, "required": false },
+        { "key": "walletAddress", "type": "string", "size": 255, "required": false },
+        { "key": "balance", "type": "double", "required": false, "default": 100.0 },
+        { "key": "verificationLevel", "type": "integer", "required": false, "default": 0 },
+        { "key": "lastSeen", "type": "integer", "required": true },
+        { "key": "isAdmin", "type": "boolean", "required": false, "default": false },
+        { "key": "bonusClaimed", "type": "boolean", "required": false, "default": false },
+        { "key": "isGated", "type": "boolean", "required": false, "default": true },
+        { "key": "referredBy", "type": "string", "size": 255, "required": false },
+        { "key": "canRefer", "type": "boolean", "required": false, "default": false }
+      ],
+      "indexes": [
+        { "key": "by_userId", "type": "unique", "attributes": ["userId"] },
+        { "key": "by_username", "type": "unique", "attributes": ["username"] },
+        { "key": "by_wallet", "type": "unique", "attributes": ["walletAddress"] },
+        { "key": "by_email", "type": "key", "attributes": ["email"] },
+        { "key": "by_referredBy", "type": "key", "attributes": ["referredBy"] }
+      ]
+    },
+    {
+      "id": "transactions",
+      "name": "Transactions",
+      "permissions": ["collection()"],
+      "attributes": [
+        { "key": "senderId", "type": "string", "size": 255, "required": true },
+        { "key": "senderAddress", "type": "string", "size": 255, "required": true },
+        { "key": "receiverId", "type": "string", "size": 255, "required": false },
+        { "key": "receiverAddress", "type": "string", "size": 255, "required": true },
+        { "key": "amount", "type": "double", "required": true },
+        { "key": "currency", "type": "string", "size": 10, "required": true },
+        { "key": "timestamp", "type": "integer", "required": true },
+        { "key": "status", "type": "string", "size": 20, "required": true },
+        { "key": "signature", "type": "string", "size": 255, "required": false },
+        { "key": "fee", "type": "double", "required": false, "default": 0 },
+        { "key": "type", "type": "string", "size": 20, "required": true },
+        { "key": "memo", "type": "string", "size": 500, "required": false },
+        { "key": "category", "type": "string", "size": 50, "required": false },
+        { "key": "narration", "type": "string", "size": 500, "required": false },
+        { "key": "receiptId", "type": "string", "size": 255, "required": false },
+        { "key": "giftAnonymous", "type": "boolean", "required": false, "default": false },
+        { "key": "giftAcknowledged", "type": "boolean", "required": false, "default": false }
+      ],
+      "indexes": [
+        { "key": "by_sender", "type": "key", "attributes": ["senderId"] },
+        { "key": "by_sender_time", "type": "key", "attributes": ["senderId", "timestamp"] },
+        { "key": "by_receiver", "type": "key", "attributes": ["receiverId"] },
+        { "key": "by_receiver_time", "type": "key", "attributes": ["receiverId", "timestamp"] },
+        { "key": "by_sender_address_time", "type": "key", "attributes": ["senderAddress", "timestamp"] },
+        { "key": "by_receiver_address_time", "type": "key", "attributes": ["receiverAddress", "timestamp"] },
+        { "key": "by_timestamp", "type": "key", "attributes": ["timestamp"] },
+        { "key": "by_signature", "type": "unique", "attributes": ["signature"] }
+      ]
+    },
+    {
+      "id": "notifications",
+      "name": "Notifications",
+      "permissions": ["collection()"],
+      "attributes": [
+        { "key": "userId", "type": "string", "size": 255, "required": true },
+        { "key": "type", "type": "string", "size": 50, "required": true },
+        { "key": "title", "type": "string", "size": 200, "required": true },
+        { "key": "content", "type": "string", "size": 1000, "required": true },
+        { "key": "read", "type": "boolean", "required": true, "default": false },
+        { "key": "timestamp", "type": "integer", "required": true },
+        { "key": "data", "type": "string", "size": 5000, "required": false }
+      ],
+      "indexes": [
+        { "key": "by_user", "type": "key", "attributes": ["userId", "timestamp"] }
+      ]
+    },
+    {
+      "id": "contacts",
+      "name": "Contacts",
+      "permissions": ["collection()"],
+      "attributes": [
+        { "key": "userId", "type": "string", "size": 255, "required": true },
+        { "key": "contactId", "type": "string", "size": 255, "required": true },
+        { "key": "name", "type": "string", "size": 100, "required": false },
+        { "key": "timestamp", "type": "integer", "required": true }
+      ],
+      "indexes": [
+        { "key": "by_user", "type": "key", "attributes": ["userId"] },
+        { "key": "by_user_contact", "type": "unique", "attributes": ["userId", "contactId"] }
+      ]
+    },
+    {
+      "id": "merchants",
+      "name": "Merchants",
+      "permissions": ["collection()"],
+      "attributes": [
+        { "key": "name", "type": "string", "size": 100, "required": true },
+        { "key": "email", "type": "string", "size": 255, "required": true },
+        { "key": "businessType", "type": "string", "size": 100, "required": true },
+        { "key": "userId", "type": "string", "size": 255, "required": false },
+        { "key": "timestamp", "type": "integer", "required": true }
+      ],
+      "indexes": [
+        { "key": "by_email", "type": "unique", "attributes": ["email"] },
+        { "key": "by_user", "type": "key", "attributes": ["userId"] }
+      ]
+    },
+    {
+      "id": "supportMessages",
+      "name": "Support Messages",
+      "permissions": ["collection()"],
+      "attributes": [
+        { "key": "userId", "type": "string", "size": 255, "required": true },
+        { "key": "senderId", "type": "string", "size": 255, "required": true },
+        { "key": "role", "type": "string", "size": 10, "required": true },
+        { "key": "content", "type": "string", "size": 5000, "required": true },
+        { "key": "timestamp", "type": "integer", "required": true },
+        { "key": "readByAdmin", "type": "boolean", "required": false, "default": false },
+        { "key": "readByUser", "type": "boolean", "required": false, "default": false }
+      ],
+      "indexes": [
+        { "key": "by_user", "type": "key", "attributes": ["userId"] }
+      ]
+    },
+    {
+      "id": "systemConfig",
+      "name": "System Config",
+      "permissions": ["collection()"],
+      "attributes": [
+        { "key": "key", "type": "string", "size": 100, "required": true },
+        { "key": "value", "type": "string", "size": 5000, "required": false }
+      ],
+      "indexes": [
+        { "key": "by_key", "type": "unique", "attributes": ["key"] }
+      ]
+    }
+  ]
+}

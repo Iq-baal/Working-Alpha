@@ -1,0 +1,26 @@
+name = "payme-api"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+
+routes = [
+  { pattern = "api.payme-protocol.cc/*", zone_name = "payme-protocol.cc" }
+]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "payme-db"
+database_id = "761d5d16-95c0-4571-b3fa-51b9e0404cea"
+
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "47d2d7ac6f64440caef52f6f70d76c63"
+
+[[kv_namespaces]]
+binding = "RATELIMIT"
+id = "f18b1211017b4bd3b29b6affeec4d7a1"
+
+[vars]
+ENVIRONMENT = "production"
+FRONTEND_URL = "https://payme-protocol.cc"

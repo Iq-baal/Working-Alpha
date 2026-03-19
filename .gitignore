@@ -1,0 +1,42 @@
+# dependencies
+node_modules/
+payme-api/node_modules/
+
+# environment files
+.env
+.env.local
+payme-api/.dev.vars
+
+# logs
+*.log
+
+# build folders
+dist/
+build/
+payme-api/dist/
+
+# editor
+.vscode/
+.idea/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# tooling and caches
+.wrangler/
+payme-api/.wrangler/
+.claude/
+.kiro/
+.qoder/
+*.tsbuildinfo
+
+# backups and archives
+backups/
+_backup_*/
+*.tar.gz
+*.tgz
+*.zip
+
+# secrets
+claude_api_key

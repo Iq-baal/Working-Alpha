@@ -1,0 +1,6 @@
+/index.html
+  Cache-Control: no-cache
+/
+  Cache-Control: no-cache
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://static.cloudflareinsights.com https://app.dynamicauth.com https://app.dynamic.xyz; script-src-elem 'self' 'unsafe-eval' 'unsafe-inline' https://static.cloudflareinsights.com https://app.dynamicauth.com https://app.dynamic.xyz; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob: https://dynamic-static-assets.com; font-src 'self' data: https://fonts.gstatic.com https://dynamic-static-assets.com https://cdn.jsdelivr.net; connect-src 'self' https://api.payme-protocol.cc https://solana-devnet.g.alchemy.com https://app.dynamicauth.com https://dynamic-static-assets.com https://cdn.segment.com https://api.segment.io https://cloudflareinsights.com https://logs.dynamicauth.com https://convex.payme-protocol.cc https://convex-site.payme-protocol.cc wss://convex.payme-protocol.cc; frame-src https://app.dynamicauth.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'

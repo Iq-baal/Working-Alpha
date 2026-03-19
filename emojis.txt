@@ -1,0 +1,41 @@
+src\components\auth\SetupScreen.tsx:13 'Welcome to PayMe! 🎉',
+src\components\auth\WelcomeScreen.tsx:138 🎭 Try Demo (No Login Required)
+src\components\dashboard\WalletTab.tsx:124 <p style={{ fontWeight: 700, fontSize: 14, marginBottom: 2 }}>🎉 Welcome Bonus</p>
+src\components\dashboard\WalletTab.tsx:162 {tx.category === 'bonus' ? '🎁' : initials}
+src\components\history\HistoryTab.tsx:58 {tx.category === 'bonus' ? '🎁' : initials}
+src\components\history\PrintReceipt.tsx:218 ctx.fillText('✓ Verified on Solana Network', cx, y);
+src\components\history\PrintReceipt.tsx:324 <p style={{ fontSize: 12, color: 'rgba(255, 255, 255, 0.45)', marginBottom: 4 }}>✓ Verified on Solana Network</p>
+src\components\notifications\NotificationsDrawer.tsx:16 payment_received: '💸',
+src\components\notifications\NotificationsDrawer.tsx:17 security: '🔐',
+src\components\notifications\NotificationsDrawer.tsx:18 system: '📣',
+src\components\notifications\NotificationsDrawer.tsx:19 request: '🤝',
+src\components\notifications\NotificationsDrawer.tsx:95 <p style={{ fontSize: 32, marginBottom: 10 }}>🔔</p>
+src\components\notifications\NotificationsDrawer.tsx:114 {TYPE_ICONS[notif.type] || '📣'}
+src\components\notifications\NotificationsDrawer.tsx:142 {TYPE_ICONS[selected.type] || '📣'}
+src\components\profile\ProfileModal.tsx:150 {saving ? 'Saving...' : saved ? '✓ Saved' : 'Save Changes'}
+src\components\receive\ReceiveModal.tsx:156 { name: 'Yellow Card', region: 'Nigeria · Ghana · Kenya · 15 more', flag: '🌍', fee: '1.5–3%', status: 'Mainnet' },
+src\components\receive\ReceiveModal.tsx:158 { name: 'MoonPay', region: 'Global · 100+ countries', flag: '🌐', fee: '1.99%+', status: 'Mainnet' },
+src\components\send\SendModal.tsx:28 { emoji: '🍕', label: 'Food' },
+src\components\send\SendModal.tsx:29 { emoji: '🚗', label: 'Transport' },
+src\components\send\SendModal.tsx:30 { emoji: '💰', label: 'Loan' },
+src\components\send\SendModal.tsx:31 { emoji: '🏠', label: 'Rent' },
+src\components\send\SendModal.tsx:32 { emoji: '🎓', label: 'School Fees' },
+src\components\send\SendModal.tsx:33 { emoji: '👨‍👩‍👧', label: 'Upkeep' },
+src\components\send\SendModal.tsx:34 { emoji: '🛒', label: 'Groceries' },
+src\components\send\SendModal.tsx:35 { emoji: '🏥', label: 'Health' },
+src\components\send\SendModal.tsx:36 { emoji: '💸', label: 'Disbursement' },
+src\components\send\SendModal.tsx:37 { emoji: '➕', label: 'Other' },
+src\components\send\SendModal.tsx:171 <p style={{ fontSize: 40, marginBottom: 12 }}>🔍</p>
+src\components\settings\SettingsTab.tsx:515 {([['dark', '🌑', 'Dark'], ['light', '☀️', 'Light']] as const).map(([val, icon, label]) => (
+src\components\tabs\MerchantTab.tsx:7 emoji: '⚡',
+src\components\tabs\MerchantTab.tsx:12 emoji: '🌍',
+src\components\tabs\MerchantTab.tsx:17 emoji: '💸',
+src\components\tabs\MerchantTab.tsx:22 emoji: '📊',
+src\components\tabs\MerchantTab.tsx:27 emoji: '🔐',
+src\components\tabs\MerchantTab.tsx:32 emoji: '🧾',
+src\components\tabs\MerchantTab.tsx:68 <span style={{ fontSize: 28 }}>🏪</span>
+src\components\tabs\MerchantTab.tsx:110 <div style={{ fontSize: 56, marginBottom: 16 }}>🎉</div>
+src\components\tabs\NetworkTab.tsx:234 { icon: '⚡', bold: 'Speed', text: '65,000 TPS capacity. Faster than Visa and Mastercard combined.' },
+src\components\tabs\NetworkTab.tsx:235 { icon: '💎', bold: 'Cost', text: 'Under $0.001 per transaction. PayMe sponsors every fee.' },
+src\components\tabs\NetworkTab.tsx:236 { icon: '🌍', bold: 'Global', text: 'No borders. Send anywhere on earth in under 2 seconds.' },
+src\components\tabs\NetworkTab.tsx:237 { icon: '🔐', bold: 'Security', text: 'Proof of History combined with PoS. Battle tested since 2020.' },

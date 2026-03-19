@@ -1,0 +1,4 @@
+interface:
+  display_name: "Blockchain Developer"
+  short_description: "Build and audit blockchain features"
+  default_prompt: "Use $blockchain-developer to design, implement, test, or review a blockchain feature."
