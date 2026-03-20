@@ -360,7 +360,7 @@ function UserInfoScreen({ onBack, walletAddress, displayName, email }: { onBack:
   const username = mode === 'live' ? (profile?.username ? `@${profile.username}` : '@user') : `@${demoProfile.username}`;
   const effectiveDisplayName = mode === 'live' ? (profile?.name || displayName) : displayName;
   const effectiveEmail = mode === 'live' ? (profile?.email || email) : email;
-  const avatarBase64 = mode === 'live' ? (null) : demoProfile.avatarBase64;
+  const avatarUrl = mode === 'live' ? (profile?.avatarBase64 || null) : demoProfile.avatarBase64;
 
   return (
     <motion.div key="user-info" initial={{ x: 30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: -30, opacity: 0 }}>
@@ -372,8 +372,8 @@ function UserInfoScreen({ onBack, walletAddress, displayName, email }: { onBack:
       {/* Avatar + name */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 28 }}>
         <div style={{ position: 'relative' }}>
-          <div className="avatar" style={{ width: 80, height: 80, background: avatarBase64 ? 'transparent' : getAvatarColor(effectiveDisplayName), fontSize: 26, color: 'var(--color-text)', marginBottom: 12, overflow: 'hidden', border: avatarBase64 ? '1px solid var(--color-border)' : 'none' }}>
-            {avatarBase64 ? <img src={avatarBase64} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : getInitials(effectiveDisplayName)}
+          <div className="avatar" style={{ width: 80, height: 80, background: avatarUrl ? 'transparent' : getAvatarColor(effectiveDisplayName), fontSize: 26, color: 'var(--color-text)', marginBottom: 12, overflow: 'hidden', border: avatarUrl ? '1px solid var(--color-border)' : 'none' }}>
+            {avatarUrl ? <img src={avatarUrl} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : getInitials(effectiveDisplayName)}
           </div>
           <label 
             htmlFor="avatar-upload" 
@@ -643,7 +643,7 @@ export default function SettingsTab({ openProfileModal }: { openProfileModal?: (
   const email = mode === 'live' ? (profile?.email || user?.email || '') : (user?.email || '');
   const initials = getInitials(displayName);
   const avatarColor = getAvatarColor(displayName);
-  const avatarBase64 = mode === 'live' ? (null) : demoProfile.avatarBase64;
+  const avatarUrl = mode === 'live' ? (profile?.avatarBase64 || null) : demoProfile.avatarBase64;
   const vLevel = mode === 'live' ? (profile?.verificationLevel || 0) : demoProfile.verificationLevel;
 
   const handleStartVerification = () => {
@@ -741,8 +741,8 @@ export default function SettingsTab({ openProfileModal }: { openProfileModal?: (
               style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 28, background: 'var(--color-surface)', borderRadius: 'var(--card-radius)', padding: '18px 20px', border: '1px solid var(--color-divider)', cursor: 'pointer' }}
               onClick={() => setScreen('user-info')}
             >
-              <div className="avatar" style={{ width: 56, height: 56, background: avatarBase64 ? 'transparent' : avatarColor, fontSize: 18, color: 'var(--color-text)', overflow: 'hidden', border: avatarBase64 ? '1px solid var(--color-border)' : 'none' }}>
-                {avatarBase64 ? <img src={avatarBase64} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : initials}
+              <div className="avatar" style={{ width: 56, height: 56, background: avatarUrl ? 'transparent' : avatarColor, fontSize: 18, color: 'var(--color-text)', overflow: 'hidden', border: avatarUrl ? '1px solid var(--color-border)' : 'none' }}>
+                {avatarUrl ? <img src={avatarUrl} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : initials}
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>

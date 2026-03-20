@@ -51,7 +51,7 @@ export async function getProfile(args: {
       bonusClaimed: u.bonusClaimed ?? false,
       name: u.name || u.username,
       occupation: u.occupation || null,
-      avatarBase64: u.avatarBase64 || null,
+      avatarBase64: u.avatarUrl || u.avatarBase64 || null,
       verificationLevel: u.verificationLevel ?? 0,
       isAdmin: false,
     };
