@@ -231,7 +231,7 @@ export default function WelcomeScreen() {
               <div style={{ width: 36, height: 4, borderRadius: 2, background: 'rgba(255,255,255,0.2)', margin: '12px auto 28px' }} />
 
               {/* Logo + Title */}
-              <div style={{ textAlign: 'center', marginBottom: 28 }}>
+              <div style={{ textAlign: 'center', marginBottom: 24 }}>
                 <PayMeLogo size={44} showText={false} />
                 <h2 style={{ fontSize: 26, fontWeight: 800, letterSpacing: '-0.8px', marginTop: 14, marginBottom: 6, color: '#fff' }}>
                   {authMode === 'signup' ? 'Create Account' : 'Welcome Back'}
@@ -241,6 +241,82 @@ export default function WelcomeScreen() {
                     ? 'Your Solana wallet is created automatically.'
                     : 'Sign in to access your wallet.'}
                 </p>
+              </div>
+
+              {/* iOS Style Toggle Slider */}
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}>
+                <div
+                  style={{
+                    position: 'relative',
+                    display: 'flex',
+                    background: 'rgba(255,255,255,0.08)',
+                    borderRadius: 10,
+                    padding: 3,
+                    width: 200,
+                    height: 40,
+                    border: '1px solid rgba(255,255,255,0.1)',
+                  }}
+                >
+                  {/* Sliding background pill */}
+                  <motion.div
+                    layout
+                    transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                    style={{
+                      position: 'absolute',
+                      top: 3,
+                      left: authMode === 'signup' ? 3 : '50%',
+                      width: 'calc(50% - 3px)',
+                      height: 34,
+                      background: '#F97316',
+                      borderRadius: 8,
+                      boxShadow: '0 2px 8px rgba(249,115,22,0.4)',
+                    }}
+                  />
+                  {/* Sign Up button */}
+                  <button
+                    type="button"
+                    onClick={() => { setAuthMode('signup'); resetForm(); }}
+                    style={{
+                      flex: 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'transparent',
+                      border: 'none',
+                      borderRadius: 8,
+                      fontSize: 14,
+                      fontWeight: 600,
+                      color: authMode === 'signup' ? '#fff' : 'rgba(255,255,255,0.5)',
+                      cursor: 'pointer',
+                      zIndex: 1,
+                      transition: 'color 0.2s',
+                    }}
+                  >
+                    Sign Up
+                  </button>
+                  {/* Sign In button */}
+                  <button
+                    type="button"
+                    onClick={() => { setAuthMode('signin'); resetForm(); }}
+                    style={{
+                      flex: 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'transparent',
+                      border: 'none',
+                      borderRadius: 8,
+                      fontSize: 14,
+                      fontWeight: 600,
+                      color: authMode === 'signin' ? '#fff' : 'rgba(255,255,255,0.5)',
+                      cursor: 'pointer',
+                      zIndex: 1,
+                      transition: 'color 0.2s',
+                    }}
+                  >
+                    Sign In
+                  </button>
+                </div>
               </div>
 
               {/* Wallet creation animation (signup only) */}
