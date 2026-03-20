@@ -259,3 +259,7 @@
 - Send flow now fetches the latest blockhash after the password prompt, passes `lastValidBlockHeight` into `buildSponsoredTransaction`, and confirms with the fresh blockhash.
 - `/api/solana` buildSponsoredTransaction now requires `lastValidBlockHeight` and sets it on the transaction.
 - Gift airdrops now fetch a fresh blockhash per recipient right before signing and set `lastValidBlockHeight` on the transaction.
+
+## Recent Changes (2026-03-19)
+- Send flow now fetches blockhash with `finalized`, rebuilds/rehashes right before signing, and retries once on `Blockhash not found`.
+- Worker blockhash fetch defaults to `finalized`, and claim-bonus retry matches `BlockhashNotFound` errors.

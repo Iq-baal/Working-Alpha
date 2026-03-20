@@ -84,8 +84,11 @@ async function solanaRpc(url: string, method: string, params: any[] = []): Promi
   return data.result;
 }
 
-async function rpcGetLatestBlockhash(url: string): Promise<{ blockhash: string; lastValidBlockHeight: number }> {
-  const r = await solanaRpc(url, 'getLatestBlockhash', [{ commitment: 'confirmed' }]);
+async function rpcGetLatestBlockhash(
+  url: string,
+  commitment: 'processed' | 'confirmed' | 'finalized' = 'finalized'
+): Promise<{ blockhash: string; lastValidBlockHeight: number }> {
+  const r = await solanaRpc(url, 'getLatestBlockhash', [{ commitment }]);
   return { blockhash: r.value.blockhash, lastValidBlockHeight: r.value.lastValidBlockHeight };
 }
 
@@ -917,7 +920,7 @@ app.post('/api/solana/claim-bonus', authMiddleware, async (c) => {
     try {
       signature = await sendWithFreshBlockhash();
     } catch (error) {
-      if (error instanceof Error && /Blockhash not found/i.test(error.message)) {
+      if (error instanceof Error && /Blockhash not found|BlockhashNotFound/i.test(error.message)) {
         signature = await sendWithFreshBlockhash();
       } else {
         throw error;

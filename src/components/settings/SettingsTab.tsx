@@ -984,9 +984,9 @@ export default function SettingsTab({ openProfileModal }: { openProfileModal?: (
                   <Lock size={17} color="#7C3AED" />
                 </div>
                 <div style={{ flex: 1 }}>
-                  <p style={{ fontWeight: 600, fontSize: 14 }}>Transaction PIN</p>
+                  <p style={{ fontWeight: 600, fontSize: 14 }}>App Lock PIN</p>
                   <p style={{ fontSize: 12, color: 'var(--color-text-3)' }}>
-                    {hasPin() ? 'PIN is set — tap to change' : 'Set a 4-digit PIN for transfers'}
+                    {hasPin() ? 'PIN is set — tap to change' : 'Set a 4-digit PIN to unlock the app'}
                   </p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -1003,7 +1003,7 @@ export default function SettingsTab({ openProfileModal }: { openProfileModal?: (
                 </div>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontWeight: 600, fontSize: 14 }}>Biometric Auth</p>
-                  <p style={{ fontSize: 12, color: 'var(--color-text-3)' }}>Face ID or Touch ID instead of PIN</p>
+                  <p style={{ fontSize: 12, color: 'var(--color-text-3)' }}>Face ID or Touch ID to unlock the app</p>
                 </div>
                 <Toggle on={biometrics} onToggle={handleBiometricsToggle} />
               </div>

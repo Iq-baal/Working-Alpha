@@ -13,8 +13,6 @@ import VerificationBadge from '../common/VerificationBadge';
 import AppleBackButton from '../common/AppleBackButton';
 import { useAppState } from '../../App';
 import { generateReceiptPNG } from '../../lib/receiptGenerator';
-import PinGate from '../common/PinGate';
-import { hasPin } from '../../lib/appState';
 
 const base64ToBytes = (value: string): Uint8Array => {
   const binary = atob(value);
@@ -116,7 +114,6 @@ export default function SendModal({ onClose, initialRecipientUsername, initialAm
   const [showCategories, setShowCategories] = useState(false);
   const [, setSending] = useState(false);
   const [txError, setTxError] = useState<string | null>(null);
-  const [showPinGate, setShowPinGate] = useState(false);
   const { transactions: transactionsRaw } = useHistory();
   const transactions = transactionsRaw ?? [];
 
@@ -363,10 +360,6 @@ export default function SendModal({ onClose, initialRecipientUsername, initialAm
   };
 
   const handleSend = async () => {
-    if (hasPin()) {
-      setShowPinGate(true);
-      return;
-    }
     doSend();
   };
 
@@ -449,29 +442,51 @@ export default function SendModal({ onClose, initialRecipientUsername, initialAm
         if (!secretKey) throw new Error('Failed to decrypt wallet — wrong password?');
         const keypair = Keypair.fromSecretKey(secretKey);
 
-        // 2. Fetch a fresh blockhash from the browser (browser IPs are not blocked by devnet)
         const connection = new Connection(import.meta.env.VITE_SOLANA_RPC, 'confirmed');
-        const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash('confirmed');
 
-        // 3. Backend constructs transaction, adds fee, and partially signs as gas sponsor
-        const { serializedTx: partiallySignedTxBase64, feeCharged } = await db.buildSponsoredTransaction({
-          senderAddress,
-          receiverAddress,
-          amount: usdcAmount,
-          recentBlockhash: blockhash,
-          lastValidBlockHeight,
-        });
+        const buildAndSign = async (blockhash: string, lastValidBlockHeight: number) => {
+          // Backend constructs transaction, adds fee, and partially signs as gas sponsor
+          const { serializedTx: partiallySignedTxBase64, feeCharged } = await db.buildSponsoredTransaction({
+            senderAddress,
+            receiverAddress,
+            amount: usdcAmount,
+            recentBlockhash: blockhash,
+            lastValidBlockHeight,
+          });
 
-        // Deserialize the partially signed transaction
-        const partiallySignedTx = Transaction.from(base64ToBytes(partiallySignedTxBase64));
+          // Deserialize the partially signed transaction
+          const partiallySignedTx = Transaction.from(base64ToBytes(partiallySignedTxBase64));
 
-        // 4. Sign with user's decrypted wallet
-        partiallySignedTx.sign(keypair);
+          // Sign with user's decrypted wallet
+          partiallySignedTx.sign(keypair);
 
-        // 5. Broadcast directly from the browser — avoids CF Worker → devnet 403
-        const rawTx = partiallySignedTx.serialize();
-        const signature = await connection.sendRawTransaction(rawTx, { skipPreflight: false });
-        await connection.confirmTransaction({ signature, blockhash, lastValidBlockHeight }, 'confirmed');
+          return { partiallySignedTx, feeCharged };
+        };
+
+        const sendWithFreshBlockhash = async () => {
+          // Fetch a fresh blockhash right before signing and sending
+          const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash('finalized');
+          const { partiallySignedTx, feeCharged } = await buildAndSign(blockhash, lastValidBlockHeight);
+
+          // Broadcast directly from the browser — avoids CF Worker → devnet 403
+          const rawTx = partiallySignedTx.serialize();
+          const signature = await connection.sendRawTransaction(rawTx, { skipPreflight: false });
+          await connection.confirmTransaction({ signature, blockhash, lastValidBlockHeight }, 'confirmed');
+
+          return { signature, feeCharged };
+        };
+
+        let signature: string;
+        let feeCharged: number;
+        try {
+          ({ signature, feeCharged } = await sendWithFreshBlockhash());
+        } catch (error) {
+          if (error instanceof Error && /Blockhash not found|BlockhashNotFound/i.test(error.message)) {
+            ({ signature, feeCharged } = await sendWithFreshBlockhash());
+          } else {
+            throw error;
+          }
+        }
 
         writePending({
           clientRef,
@@ -1105,18 +1120,6 @@ export default function SendModal({ onClose, initialRecipientUsername, initialAm
           )}
         </AnimatePresence>
       </motion.div>
-
-      <AnimatePresence>
-        {showPinGate && (
-          <PinGate
-            onSuccess={() => {
-              setShowPinGate(false);
-              doSend();
-            }}
-            onClose={() => setShowPinGate(false)}
-          />
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 }
